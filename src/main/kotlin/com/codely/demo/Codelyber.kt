@@ -6,7 +6,7 @@ import kotlin.system.exitProcess
 
 fun main() {
     println("Please enter your birthday with the format <yyy-MM-dd>")
-    supportNullableString(readlnOrNull()).takeIf {
+    supportNullableString(readLine()).takeIf {
         !it.isNullOrBlank() && it.isNotEmpty()
     }?.let { line ->
         LocalDate.parse(line)
