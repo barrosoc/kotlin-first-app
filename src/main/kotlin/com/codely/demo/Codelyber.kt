@@ -11,7 +11,7 @@ fun main() {
     }?.let { line ->
         LocalDate.parse(line)
     }.apply {
-        if(this == null) {
+        if (this == null) {
             println("The input date is not valid")
             exitProcess(1)
         }
