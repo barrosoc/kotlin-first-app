@@ -27,8 +27,8 @@ private fun LocalDate.calculateDifference() = with(Period.between(this, LocalDat
     val baseMessage = "The difference between your birthday and the current date is "
     val clinkingBeerMugsEmoji = "\uD83C\uDF7B"
     when {
-        years in 1..17 -> println("$baseMessage $years years")
         years >= 18 -> println("$baseMessage $years years. Your are of age! $clinkingBeerMugsEmoji")
+        years > 0 -> println("$baseMessage $years years")
         months > 0 -> println("$baseMessage $months months")
         days > 0 -> println("$baseMessage $days days")
     }
