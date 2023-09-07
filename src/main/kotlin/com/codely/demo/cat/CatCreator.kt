@@ -1,6 +1,6 @@
 package com.codely.demo.cat
 
-import com.codely.demo.shared.Clock
+import com.codely.demo.app.Clock
 import com.codely.demo.shared.Reader
 import com.codely.demo.shared.Writer
 import java.time.LocalDate
@@ -16,21 +16,27 @@ class CatCreator(val reader: Reader, val writer: Writer, val clock: Clock) {
         val origin = reader.read()
         writer.write("Is your cat vaccinated?")
         val vaccinated = reader.read()
-        writer.write("Is your cat dewormed?")
-        val dewormed = reader.read()
         writer.write("When did your cat birth?")
         val birthDate = reader.read()
 
-        require(!(name.isNullOrBlank() || name.isEmpty() || origin.isNullOrEmpty() || origin.isBlank() || vaccinated.isNullOrEmpty() || vaccinated.isBlank() || dewormed.isNullOrEmpty() || dewormed.isBlank() || birthDate.isNullOrEmpty() || birthDate.isBlank()))
+        require(!(name.isNullOrBlank() || name.isEmpty() || origin.isNullOrEmpty() || origin.isBlank()))
 
-        return Cat(
-            id = UUID.fromString(id),
-            name = name,
-            origin = origin,
-            vaccinated = vaccinated.toBoolean(),
-            dewormed = dewormed.toBoolean(),
-            birthDate = LocalDate.parse(birthDate),
-            createdAt = clock.now()
-        )
+        return if (vaccinated.toBoolean()) {
+            Cat.vaccinatedWith(
+                id = UUID.fromString(id),
+                name = name,
+                origin = origin,
+                birthDate = LocalDate.parse(birthDate),
+                createdAt = clock.now()
+            )
+        } else {
+            Cat.notVaccinatedWith(
+                id = UUID.fromString(id),
+                name = name,
+                origin = origin,
+                birthDate = LocalDate.parse(birthDate),
+                createdAt = clock.now()
+            )
+        }
     }
 }

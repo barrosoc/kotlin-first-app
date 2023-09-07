@@ -1,6 +1,6 @@
 package com.codely.demo.cat
 
-import com.codely.demo.shared.Clock
+import com.codely.demo.app.Clock
 import com.codely.demo.shared.Reader
 import com.codely.demo.shared.Writer
 import io.mockk.every
@@ -16,7 +16,6 @@ internal class CatCreatorTest {
     private val name = "Mandarina"
     private val origin = "Shelter"
     private val vaccinated = "true"
-    private val dewormed = "true"
     private val birthDate = "2019-01-01"
     private val fixedDate = LocalDate.of(2021, 8, 31)
 
@@ -26,7 +25,7 @@ internal class CatCreatorTest {
         val writer = mockk<Writer>(relaxed = true)
         val clock = mockk<Clock>()
         every { clock.now() } returns fixedDate
-        every { reader.read() } returns id andThen name andThen origin andThen vaccinated andThen dewormed andThen birthDate
+        every { reader.read() } returns id andThen name andThen origin andThen vaccinated andThen birthDate
 
         val creator = CatCreator(reader, writer, clock)
         val actualCat = creator.create()
@@ -36,7 +35,6 @@ internal class CatCreatorTest {
             name,
             origin,
             vaccinated.toBoolean(),
-            dewormed.toBoolean(),
             LocalDate.parse(birthDate),
             fixedDate
         )
@@ -50,7 +48,7 @@ internal class CatCreatorTest {
         val writer = mockk<Writer>(relaxed = true)
         val clock = mockk<Clock>()
         every { clock.now() } returns fixedDate
-        every { reader.read() } returns id andThen "" andThen origin andThen vaccinated andThen dewormed andThen birthDate
+        every { reader.read() } returns id andThen "" andThen origin andThen vaccinated andThen birthDate
 
         val creator = CatCreator(reader, writer, clock)
         assertThrows<IllegalArgumentException> { creator.create() }
@@ -62,31 +60,31 @@ internal class CatCreatorTest {
         val writer = mockk<Writer>(relaxed = true)
         val clock = mockk<Clock>()
         every { clock.now() } returns fixedDate
-        every { reader.read() } returns id andThen "  " andThen origin andThen vaccinated andThen dewormed andThen birthDate
+        every { reader.read() } returns id andThen "  " andThen origin andThen vaccinated andThen birthDate
 
         val creator = CatCreator(reader, writer, clock)
         assertThrows<IllegalArgumentException> { creator.create() }
     }
 
     @Test
-    fun `should fail creating a cat without origin`() {
+    fun `should fail creating a cat without shelter`() {
         val reader = mockk<Reader>()
         val writer = mockk<Writer>(relaxed = true)
         val clock = mockk<Clock>()
         every { clock.now() } returns fixedDate
-        every { reader.read() } returns id andThen name andThen "" andThen vaccinated andThen dewormed andThen birthDate
+        every { reader.read() } returns id andThen name andThen "" andThen vaccinated andThen birthDate
 
         val creator = CatCreator(reader, writer, clock)
         assertThrows<IllegalArgumentException> { creator.create() }
     }
 
     @Test
-    fun `should fail creating a cat with empty origin`() {
+    fun `should fail creating a cat with empty shelter`() {
         val reader = mockk<Reader>()
         val writer = mockk<Writer>(relaxed = true)
         val clock = mockk<Clock>()
         every { clock.now() } returns fixedDate
-        every { reader.read() } returns id andThen name andThen "  " andThen vaccinated andThen dewormed andThen birthDate
+        every { reader.read() } returns id andThen name andThen "  " andThen vaccinated andThen birthDate
 
         val creator = CatCreator(reader, writer, clock)
         assertThrows<IllegalArgumentException> { creator.create() }
