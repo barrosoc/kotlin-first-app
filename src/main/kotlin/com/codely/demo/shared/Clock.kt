@@ -1,4 +1,4 @@
-package com.codely.demo.app
+package com.codely.demo.shared
 
 import java.time.LocalDate
 
