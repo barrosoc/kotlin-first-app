@@ -9,6 +9,7 @@ data class Cat(
     val origin: String,
     val vaccinated: Boolean,
     val birthDate: LocalDate,
+    val favoriteToy: String,
     val createdAt: LocalDate
 ) {
     companion object {
@@ -17,6 +18,7 @@ data class Cat(
             name: String,
             origin: String,
             birthDate: LocalDate,
+            favoriteToy: String,
             createdAt: LocalDate
         ) = Cat(
             id = id,
@@ -24,6 +26,7 @@ data class Cat(
             origin = origin,
             vaccinated = true,
             birthDate = birthDate,
+            favoriteToy = favoriteToy,
             createdAt = createdAt
         )
 
@@ -32,6 +35,7 @@ data class Cat(
             name: String,
             origin: String,
             birthDate: LocalDate,
+            favoriteToy: String,
             createdAt: LocalDate
         ) = Cat(
             id = id,
@@ -39,6 +43,7 @@ data class Cat(
             origin = origin,
             vaccinated = false,
             birthDate = birthDate,
+            favoriteToy,
             createdAt = createdAt
         )
     }

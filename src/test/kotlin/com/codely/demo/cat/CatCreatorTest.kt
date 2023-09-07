@@ -18,6 +18,7 @@ internal class CatCreatorTest {
     private val vaccinated = "true"
     private val birthDate = "2019-01-01"
     private val fixedDate = LocalDate.of(2021, 8, 31)
+    private val favoriteToy = "ball"
 
     private val repository = InMemoryCatRepository()
 
@@ -28,7 +29,7 @@ internal class CatCreatorTest {
         val clock = mockk<Clock>()
 
         every { clock.now() } returns fixedDate
-        every { reader.read() } returns id andThen name andThen origin andThen vaccinated andThen birthDate
+        every { reader.read() } returns id andThen name andThen origin andThen vaccinated andThen birthDate andThen favoriteToy
 
         val creator = CatCreator(reader, writer, clock, repository)
         creator.create()
@@ -39,6 +40,7 @@ internal class CatCreatorTest {
             origin,
             vaccinated.toBoolean(),
             LocalDate.parse(birthDate),
+            favoriteToy,
             fixedDate
         )
 
