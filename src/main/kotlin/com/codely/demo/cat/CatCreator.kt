@@ -6,7 +6,7 @@ import com.codely.demo.shared.Writer
 import java.time.LocalDate
 import java.util.UUID
 
-class CatCreator(val reader: Reader, val writer: Writer, val clock: Clock) {
+class CatCreator(private val reader: Reader, private val writer: Writer, private val clock: Clock, private val repository: CatRepository) {
     fun create(): Cat {
         writer.write("Please enter an id for your cat")
         val id = reader.read()
@@ -19,24 +19,20 @@ class CatCreator(val reader: Reader, val writer: Writer, val clock: Clock) {
         writer.write("When did your cat birth?")
         val birthDate = reader.read()
 
-        require(!(name.isNullOrBlank() || name.isEmpty() || origin.isNullOrEmpty() || origin.isBlank()))
-
-        return if (vaccinated.toBoolean()) {
-            Cat.vaccinatedWith(
-                id = UUID.fromString(id),
-                name = name,
-                origin = origin,
-                birthDate = LocalDate.parse(birthDate),
-                createdAt = clock.now()
-            )
+        if (name.isNullOrBlank() || name.isNullOrEmpty() || origin.isNullOrEmpty() || origin.isNullOrBlank()) {
+            throw IllegalArgumentException()
         } else {
-            Cat.notVaccinatedWith(
+            val cat = Cat(
                 id = UUID.fromString(id),
                 name = name,
                 origin = origin,
+                vaccinated = vaccinated.toBoolean(),
                 birthDate = LocalDate.parse(birthDate),
                 createdAt = clock.now()
             )
+            repository.save(cat)
+
+            return cat
         }
     }
 }
