@@ -17,15 +17,19 @@ fun main() {
         }
     }.also {
         println("Your birthday is $it")
-    }.run {
-        with(Period.between(this, LocalDate.now())) {
-            when {
-                years > 0 -> println("The difference between your birthday and the current date is $years years")
-                months > 0 -> println("The difference between your birthday and the current date is $months months")
-                days > 0 -> println("The difference between your birthday and the current date is $days days")
-            }
-        }
+    }?.run {
+        calculateDifference()
     }
 }
 
 fun supportNullableString(line: String?) = line
+private fun LocalDate.calculateDifference() = with(Period.between(this, LocalDate.now())) {
+    val baseMessage = "The difference between your birthday and the current date is "
+    val clinkingBeerMugsEmoji = "\uD83C\uDF7B"
+    when {
+        years in 1..17 -> println("$baseMessage $years years")
+        years >= 18 -> println("$baseMessage $years years. Your are of age! $clinkingBeerMugsEmoji")
+        months > 0 -> println("$baseMessage $months months")
+        days > 0 -> println("$baseMessage $days days")
+    }
+}
