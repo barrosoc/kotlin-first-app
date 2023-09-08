@@ -95,4 +95,6 @@ data class Cat(
             }
         }
     }
+
+    data class Breed(val value: String)
 }
