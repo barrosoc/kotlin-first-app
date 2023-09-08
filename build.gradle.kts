@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.5.21"
-    id("com.diffplug.spotless") version "5.7.0"
+    id("com.diffplug.spotless") version "5.15.0"
 }
 
 group = "com.codely"
@@ -11,20 +11,19 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://jcenter.bintray.com")
+    }
 }
 
 dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation("org.jetbrains.kotlin:kotlin-bom")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:5.7.0")
+    implementation ("org.http4k:http4k-core:4.12.3.0")
+    implementation("org.json:json:20220320")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-
-    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-    testImplementation("org.mockito:mockito-inline:3.9.0")
-    testImplementation("org.mockito:mockito-core:3.9.0")
-
     testImplementation("io.mockk:mockk:1.12.0")
 }
 
@@ -47,9 +46,6 @@ spotless {
                     "insert_final_newline" to "true"
                 )
             )
-    }
-    kotlinGradle {
-        ktlint()
     }
 }
 
