@@ -13,6 +13,7 @@ data class Cat(
     val birthDate: BirthDate,
     val color: Color,
     val age: Int,
+    val breed: Breed,
     val createdAt: LocalDate
 ) {
     enum class Color {
@@ -35,7 +36,8 @@ data class Cat(
             birthDate: BirthDate,
             color: Color,
             vaccinated: Vaccinated,
-            createdAt: LocalDate
+            createdAt: LocalDate,
+            breed: Breed
         ) = Cat(
             id = id,
             name = name,
@@ -44,6 +46,7 @@ data class Cat(
             birthDate = birthDate,
             color = color,
             age = AgeCalculator.calculate(birthDate.value, createdAt).years,
+            breed = breed,
             createdAt = createdAt
         )
     }
@@ -78,9 +81,13 @@ data class Cat(
         companion object {
             fun from(value: String?) = if (value.isNullOrBlank() || value.isNullOrEmpty() || !isValid(value)) {
                 throw InvalidVaccinated(value)
-            } else Vaccinated(value.toBoolean())
+            } else {
+                if (value == "yes")
+                    Vaccinated(true)
+                else Vaccinated(false)
+            }
 
-            private fun isValid(value: String) = listOf("true", "false").contains(value.lowercase())
+            private fun isValid(value: String) = listOf("yes", "no").contains(value.lowercase())
         }
     }
 

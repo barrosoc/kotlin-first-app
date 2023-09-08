@@ -7,8 +7,8 @@ import com.codely.demo.shared.Writer
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import java.time.LocalDate
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 
 class AppWithMockk {
 
